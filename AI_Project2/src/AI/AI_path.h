@@ -12,6 +12,9 @@ struct PathNode
 	PathNode(std::string name)
 		: name(name)
 		, parent(nullptr)
+		, f(std::numeric_limits<float>::infinity())
+		, g(std::numeric_limits<float>::infinity())
+		, h(std::numeric_limits<float>::infinity())
 	{
 	}
 
@@ -21,6 +24,10 @@ struct PathNode
 	std::string name;
 	float distanceFromStart;
 	std::vector<PathNode*> neighbours;
+
+	float f;
+	float g;
+	float h;
 
 	bool operator() (const PathNode* l, const PathNode* r) const
 	{
@@ -54,15 +61,22 @@ public:
 	bool DijkstraSearch(Graph* graph, PathNode* start, PathNode* end);
 	bool AStarSearch(Graph* graph, PathNode* start, PathNode* end);
 
+	void findPath();
+
 private:
+	std::vector<PathNode*>::iterator lowestFValue(std::vector<PathNode*>& openList);
+	float heuristic(PathNode* nodeA, PathNode* nodeB);
+	void reconstructPath(PathNode* goal);
+
 	cAI_Map* m_theMap;
 	Graph m_Graph;
 
+	std::vector<PathNode*> m_path;
 
-	unsigned int m_OpenMaterialId;
-	unsigned int m_ClosedMaterialId;
-	unsigned int m_UnvisitedMaterialId;
-	unsigned int m_FoundPathMaterialId;
+	//unsigned int m_OpenMaterialId;
+	//unsigned int m_ClosedMaterialId;
+	//unsigned int m_UnvisitedMaterialId;
+	//unsigned int m_FoundPathMaterialId;
 
 	std::vector<PathNode*> m_OpenSet;
 	std::vector<PathNode*> m_ClosedSet;

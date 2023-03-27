@@ -304,6 +304,8 @@ int main(void)
     g_AI_path = new AI_path();
     g_AI_path->loadBITMAP(BMP_PATH);
     g_AI_path->createGraph(pVAOManager);
+    g_AI_path->findPath();
+
     g_physicSys.gameUpdate();
     cTime::update();
 

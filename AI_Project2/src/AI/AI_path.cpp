@@ -411,8 +411,115 @@ bool AI_path::DijkstraSearch(Graph* graph, PathNode* start, PathNode* end)
 
 bool AI_path::AStarSearch(Graph* graph, PathNode* start, PathNode* end)
 {
-	//todo
+	std::vector<PathNode*> open;
+	std::vector<PathNode*> closed;
+
+	open.push_back(start);
+	printf("Added %c to the open set!\n", start->name);
+
+	start->g = 0;
+	start->f = heuristic(start, end);
+
+	while (!open.empty())
+	{
+		PrintSet("open:   ", open);
+		PrintSet("closed: ", closed);
+
+		std::vector<PathNode*>::iterator itX = lowestFValue(open);
+		PathNode* curNode = *itX;
+
+		if (curNode == end)
+		{
+			reconstructPath(end);
+			return true;//todo;
+		}
+		open.erase(itX);
+		printf("Removed %c from the open set!\n", curNode->name);
+		closed.push_back(curNode);
+		printf("Added %c to the closed set!\n", curNode->name);
+
+		for (int i = 0; i < curNode->neighbours.size(); i++)
+		{
+			PathNode* n = curNode->neighbours[i];
+			printf("Found neighbour %c!\n", n->name);
+			if (std::find(closed.begin(), closed.end(), n) != closed.end())
+			{
+				continue;
+			}
+			float tentativeG = curNode->g + heuristic(curNode, n);
+			if (std::find(open.begin(), open.end(), n) == open.end())
+			{
+				open.push_back(n);
+				printf("Added %c to the open set!\n", n->name);
+			}
+			else if (tentativeG >= n->g)
+			{
+				continue;
+			}
+
+			n->parent = curNode;
+			n->g = tentativeG;
+			n->f = n->g + heuristic(n, end);
+		}
+	}
 	return false;
+}
+
+void AI_path::findPath()
+{
+	PathNode* start = m_Graph.getNodeByName(m_StartNode->name);
+	PathNode* goal = m_Graph.getNodeByName(m_EndNode->name);
+	AStarSearch(&m_Graph, start, goal);
+}
+
+std::vector<PathNode*>::iterator AI_path::lowestFValue(std::vector<PathNode*>& openList)
+{
+	std::vector<PathNode*>::iterator curNodeIt;
+	std::vector<PathNode*>::iterator foundIt;
+	float lowestF = std::numeric_limits<float>::infinity();
+
+	for (curNodeIt = openList.begin(); curNodeIt != openList.end(); ++curNodeIt)
+	{
+		if ((*curNodeIt)->f < lowestF)
+		{
+			lowestF = (*curNodeIt)->f;
+			foundIt = (curNodeIt);
+		}
+	}
+	return foundIt;
+}
+
+//float AI_path::heuristic(PathNode* node, PathNode* goal)
+//{
+//	float dx = (node->point.x - goal->point.x);
+//	float dz = (node->point.z - goal->point.z);
+//
+//	return dx+dz;
+//}
+
+float AI_path::heuristic(PathNode* nodeA, PathNode* nodeB)
+{
+	float dx = nodeA->point.x - nodeB->point.x;
+	float dz = nodeA->point.z - nodeB->point.z;
+	float distance = sqrtf((dx * dx) + (dz * dz));
+
+	return distance;
+}
+
+void AI_path::reconstructPath(PathNode* goal)
+{
+	m_path.empty();
+	m_path.push_back(goal);
+
+	PathNode* curNode = goal;
+
+	while (curNode->parent != nullptr)
+	{
+		curNode = curNode->parent;
+		m_path.push_back(curNode);
+	}
+	std::reverse(m_path.begin(), m_path.end());
+
 }
 
 void Graph::SetNeighbours(int a, int b)
