@@ -1,4 +1,5 @@
 #include "cObject.h"
+#include <cmath>
 
 cObject::cObject()
 {
@@ -70,10 +71,10 @@ void cObject::update()
 	this->prevPosition = this->position;
 
 	//this->pBBox->pMeshObj->position = this->position+ this->pBBox->centerPointOffset;
-	this->pBBox->centerPoint = this->position + this->pBBox->centerPointOffset;
-	this->pBBox->minPoint = this->position + this->pBBox->minPointOffset;
-	this->pBBox->maxPoint = this->position + this->pBBox->maxPointOffset;
-	this->pBBox->halfExtent = this->position + this->pBBox->halfExtentOffset;
+	//this->pBBox->centerPoint = this->position + this->pBBox->centerPointOffset;
+	//this->pBBox->minPoint = this->position + this->pBBox->minPointOffset;
+	//this->pBBox->maxPoint = this->position + this->pBBox->maxPointOffset;
+	//this->pBBox->halfExtent = this->position + this->pBBox->halfExtentOffset;
 }
 
 void cObject::AI_update(cObject* playerObj)
@@ -119,4 +120,35 @@ void cObject::AI_update(cObject* playerObj)
 
 	//float angle = acos(glm::dot(this->direction, this->position - playerObj->position) / (glm::length(this->direction) * glm::length(this->position - playerObj->position)));
 	//this->yRotation = angle * 0.1f;
+}
+
+bool compare_float(glm::vec3 A, glm::vec3 B, float epsilon = 0.1f) 
+{
+	glm::vec3 diff = glm::abs(A - B) ;
+	if (diff.x < epsilon && diff.y < epsilon && diff.z < epsilon)
+		return true; //they are same
+	return false; //they are not same
+}
+
+void cObject::AI_PathFollowing_update(std::vector<glm::vec3> path_pos)
+{
+	static int i = 1;
+	if (AI_Type == AI_type::TYPE_A)
+	{
+		glm::vec3 targetPos = path_pos[i];
+		if (compare_float(this->position,targetPos + glm::vec3(-2.5, 0, -2.5)))
+		{
+			if (i < path_pos.size()-1)
+			{
+				targetPos = path_pos[i+1];
+				i++;
+			}
+		}
+
+		{
+			//seek
+			this->pSteering->Seek(targetPos + glm::vec3(-2.5, 0, -2.5));
+			this->pMeshObj->color_RGBA = SEEK_COLOR;
+		}
+	}
 }

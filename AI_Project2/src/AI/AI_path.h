@@ -62,6 +62,9 @@ public:
 	bool AStarSearch(Graph* graph, PathNode* start, PathNode* end);
 
 	void findPath();
+	
+	glm::vec3 getStartPos();
+	std::vector<glm::vec3> path_pos;
 
 private:
 	std::vector<PathNode*>::iterator lowestFValue(std::vector<PathNode*>& openList);

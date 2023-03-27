@@ -13,35 +13,12 @@
 	<model name="skybox">asset/model/UV_Sphere_for_Skybox_inverted_Normals_xyz_uv_n_rgba.ply
 		<modelInstance>skybox<posX>0</posX><posZ>0</posZ><rotateY>0</rotateY></modelInstance>
 	</model>
-	<model name="enemy">asset/model/dreadnoght.ply
-		<modelInstance>enemy1<posX>5</posX><posZ>5</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>enemy2<posX>5</posX><posZ>-5</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>enemy3<posX>-5</posX><posZ>5</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>enemy4<posX>-5</posX><posZ>-5</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>enemy5<posX>0</posX><posZ>5</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>enemy6<posX>0</posX><posZ>-5</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>enemy7<posX>5</posX><posZ>0</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>enemy8<posX>-5</posX><posZ>0</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>enemy9<posX>-2.5</posX><posZ>-2.5</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>enemy10<posX>2.5</posX><posZ>2.5</posZ><rotateY>0</rotateY></modelInstance>
-	</model>
-	
-	<model name="bullet">asset/model/UV_Sphere_Cylindrical_UIV_Projection_bullet.ply
-		<modelInstance>bullet<posX>0</posX><posZ>0</posZ><rotateY>0</rotateY></modelInstance>
-	</model>
-	<model name="player">asset/model/dreadnoght1.ply
-		<modelInstance>Player<posX>0</posX><posZ>0</posZ><rotateY>0</rotateY></modelInstance>
-	</model>
-	<model name="obstacle">asset/model/SM_Prop_Barrel_02.ply
-		<modelInstance>obstacle1<posX>0</posX><posZ>0</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>obstacle2<posX>5</posX><posZ>5</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>obstacle3<posX>5</posX><posZ>-5</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>obstacle4<posX>-5</posX><posZ>5</posZ><rotateY>0</rotateY></modelInstance>
-		<modelInstance>obstacle5<posX>-5</posX><posZ>-5</posZ><rotateY>0</rotateY></modelInstance>
+	<model name="enemy">asset/model/dreadnoght1.ply
+		<modelInstance>enemy1<posX>0</posX><posZ>0</posZ><rotateY>0</rotateY></modelInstance>
 	</model>
 </PLYMODEL>
 <EYE_LOCATION>
-	<x>90</x>
+	<x>0</x>
 	<y>100</y>
-	<z>0</z>
+	<z>50</z>
 </EYE_LOCATION>

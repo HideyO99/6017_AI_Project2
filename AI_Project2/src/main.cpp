@@ -34,12 +34,15 @@
 #define TEXTURE_PATH            "asset/texture"
 #define BMP_PATH                "asset/map.bmp"
 
+#define ENABLECONTROL false
+
 glm::vec3 g_cameraEye = glm::vec3(0.0, 5.0, 0.0f);
-glm::vec3 g_cameraTarget = glm::vec3(1.0f, 1.0f, 1.0f);
+glm::vec3 g_cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
 glm::vec3 g_upVector = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 g_cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 bool bIsWalkAround = false;
 bool firstMouse = true;
+bool isPlay = false;
 float yaw = -90.0f;	
 float pitch = 0.0f;
 float lastX = 1280.0f / 2.0;
@@ -79,8 +82,6 @@ void drawObj(cMeshObj* pCurrentMeshObject, glm::mat4x4 mat_PARENT_Model, cShader
 void light0Setup();
 void light1Setup(cVAOManager* pVAOManager);
 void light2Setup(cVAOManager* pVAOManager);
-void light3Setup();
-void light4Setup();
 void checkBorder();
 
 void updateByFrameRate();
@@ -258,44 +259,44 @@ int main(void)
     cModelDrawInfo drawingInformation;
     result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy1"))->meshName.c_str(), drawingInformation);
     g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy1"), &drawingInformation, cObject::TYPE_A );
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy2"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy2"), &drawingInformation, cObject::TYPE_A);
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy3"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy3"), &drawingInformation, cObject::TYPE_B);
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy4"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy4"), &drawingInformation, cObject::TYPE_B);
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy5"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy5"), &drawingInformation, cObject::TYPE_C);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy2"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy2"), &drawingInformation, cObject::TYPE_A);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy3"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy3"), &drawingInformation, cObject::TYPE_B);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy4"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy4"), &drawingInformation, cObject::TYPE_B);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy5"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy5"), &drawingInformation, cObject::TYPE_C);
 
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy6"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy6"), &drawingInformation, cObject::TYPE_A);
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy7"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy7"), &drawingInformation, cObject::TYPE_A);
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy8"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy8"), &drawingInformation, cObject::TYPE_B);
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy9"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy9"), &drawingInformation, cObject::TYPE_B);
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy10"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy10"), &drawingInformation, cObject::TYPE_C);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy6"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy6"), &drawingInformation, cObject::TYPE_A);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy7"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy7"), &drawingInformation, cObject::TYPE_A);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy8"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy8"), &drawingInformation, cObject::TYPE_B);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy9"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy9"), &drawingInformation, cObject::TYPE_B);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("enemy10"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("enemy10"), &drawingInformation, cObject::TYPE_C);
 
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("bullet"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("bullet"), &drawingInformation);
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("Player"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("Player"), &drawingInformation);
-    std::map<std::string, cObject*>::iterator playerObj = g_physicSys.mapOBJ.find("Player");
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("bullet"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("bullet"), &drawingInformation);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("Player"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("Player"), &drawingInformation, cObject::TYPE_A);
+    std::map<std::string, cObject*>::iterator playerObj = g_physicSys.mapOBJ.find("enemy1");
     g_player = playerObj->second;
     
 
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("obstacle1"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("obstacle1"), &drawingInformation);
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("obstacle2"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("obstacle2"), &drawingInformation);
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("obstacle3"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("obstacle3"), &drawingInformation);
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("obstacle4"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("obstacle4"), &drawingInformation);
-    result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("obstacle5"))->meshName.c_str(), drawingInformation);
-    g_physicSys.createObject(pVAOManager->findMeshObjAddr("obstacle5"), &drawingInformation);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("obstacle1"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("obstacle1"), &drawingInformation);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("obstacle2"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("obstacle2"), &drawingInformation);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("obstacle3"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("obstacle3"), &drawingInformation);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("obstacle4"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("obstacle4"), &drawingInformation);
+    //result = pVAOManager->FindDrawInfo((pVAOManager->findMeshObjAddr("obstacle5"))->meshName.c_str(), drawingInformation);
+    //g_physicSys.createObject(pVAOManager->findMeshObjAddr("obstacle5"), &drawingInformation);
     //g_physicSys.createEnvironment(drawingInformation);
     //g_physicSys.boundingBox.pMeshObj = pVAOManager->findMeshObjAddr("box1");
     //g_physicSys.boundingBox.pDrawInfo = pVAOManager->findDrawInfoAddr("box1");
@@ -305,7 +306,7 @@ int main(void)
     g_AI_path->loadBITMAP(BMP_PATH);
     g_AI_path->createGraph(pVAOManager);
     g_AI_path->findPath();
-
+    g_player->position = glm::vec4(g_AI_path->getStartPos(), 1.f) + glm::vec4(-2.5f,0,-2.5f,0);
     g_physicSys.gameUpdate();
     cTime::update();
 
@@ -689,59 +690,13 @@ void light2Setup(cVAOManager* pVAOManager)
     ::g_pTheLightManager->plight[9]->turnON = 1;
 }
 
-void light3Setup()
-{
-
-    //::g_pTheLightManager->plight[6]->position = glm::vec4(15.6f, 0.6f, 8.7f, 1.0f);
-    //::g_pTheLightManager->plight[6]->diffuse = glm::vec4(0.8f, .50f, 0.4f, 1.0f);
-    //::g_pTheLightManager->plight[6]->attenuation = glm::vec4(0.19f, 0.003f, 0.072f, 1.0f);
-    //::g_pTheLightManager->plight[6]->type = cLight::LightType::LIGHT_SPOT;
-    //::g_pTheLightManager->plight[6]->direction = glm::vec4(0.07f, -0.5f, 1.0f, 1.0f);
-    //// inner and outer angles
-    //::g_pTheLightManager->plight[6]->angle.x = 10.0f;     // Degrees
-    //::g_pTheLightManager->plight[6]->angle.y = 20.0f;     // Degrees
-    //::g_pTheLightManager->plight[6]->turnON = 1;
-
-    //::g_pTheLightManager->plight[7]->position = glm::vec4(15.0f, 0.6f, 9.5f, 1.0f);
-    //::g_pTheLightManager->plight[7]->diffuse = glm::vec4(0.8f, .50f, 0.4f, 1.0f);
-    //::g_pTheLightManager->plight[7]->attenuation = glm::vec4(0.19f, 0.003f, 0.072f, 1.0f);
-    //::g_pTheLightManager->plight[7]->type = cLight::LightType::LIGHT_SPOT;
-    //::g_pTheLightManager->plight[7]->direction = glm::vec4(0.07f, -0.5f, 1.0f, 1.0f);
-    //// inner and outer angles
-    //::g_pTheLightManager->plight[7]->angle.x = 10.0f;     // Degrees
-    //::g_pTheLightManager->plight[7]->angle.y = 20.0f;     // Degrees
-    //::g_pTheLightManager->plight[7]->turnON = 1;
-
-}
-
-void light4Setup()
-{
-    //::g_pTheLightManager->plight[8]->position = glm::vec4(11.9f, 0.4f, 5.f, 1.0f);
-    //::g_pTheLightManager->plight[8]->diffuse = glm::vec4(1.f, 1.f, 1.f, 1.0f);
-    //::g_pTheLightManager->plight[8]->attenuation = glm::vec4(0.19f, 0.003f, 0.072f, 1.0f);
-    //::g_pTheLightManager->plight[8]->type = cLight::LightType::LIGHT_SPOT;
-    //::g_pTheLightManager->plight[8]->direction = glm::vec4(0.07f, -0.5f, 1.0f, 1.0f);
-    //// inner and outer angles    
-    //::g_pTheLightManager->plight[8]->angle.x = 10.0f;     // Degrees
-    //::g_pTheLightManager->plight[8]->angle.y = 20.0f;     // Degrees
-    //::g_pTheLightManager->plight[8]->turnON = 1;
-
-    //::g_pTheLightManager->plight[9]->position = glm::vec4(11.2f, 0.6f, 5.7f, 1.0f);
-    //::g_pTheLightManager->plight[9]->diffuse = glm::vec4(1.f, 1.f, 1.f, 1.0f);
-    //::g_pTheLightManager->plight[9]->attenuation = glm::vec4(0.19f, 0.003f, 0.072f, 1.0f);
-    //::g_pTheLightManager->plight[9]->type = cLight::LightType::LIGHT_SPOT;
-    //::g_pTheLightManager->plight[9]->direction = glm::vec4(0.07f, -0.5f, 1.0f, 1.0f);
-    //// inner and outer angle
-    //::g_pTheLightManager->plight[9]->angle.x = 10.0f;     // Degrees
-    //::g_pTheLightManager->plight[9]->angle.y = 20.0f;     // Degrees
-    //::g_pTheLightManager->plight[9]->turnON = 1;
-}
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 
+#if ENABLECONTROL
     //move camera
     // AWSD AD-Left, Right
     //      WS-Forward, Back
@@ -782,14 +737,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     {
         //::g_cameraEye.y += CAMERA_MOVE_SPEED;
     }
+#endif
     if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE)
     {
+        isPlay = !isPlay;
         //::g_cameraEye = glm::vec3(-5.5f, -3.4f, 15.0f);
         //::g_cameraEye = glm::vec3(0.0, 100.0, 300.0f);
         //::g_cameraTarget = glm::vec3(5.0f, 0.0f, 0.0f);
         //bIsWalkAround = !bIsWalkAround;
     }
-
     //checkBorder();
 }
 void checkBorder()
@@ -892,7 +848,7 @@ void updateByFrameRate()
         double elapsedTime = g_CurrentTime - g_LastCall;
         g_LastCall = g_CurrentTime;
 
-        std::map<std::string, cObject*>::iterator obj_it = g_physicSys.mapOBJ.find("Player");
+        std::map<std::string, cObject*>::iterator obj_it = g_physicSys.mapOBJ.find("enemy1");
         //obj_it->second->position = ::g_cameraEye;
 
         //cal player velocity
@@ -900,8 +856,10 @@ void updateByFrameRate()
         obj_it->second->velocity.z = (obj_it->second->position.z - obj_it->second->prevPosition.z) / elapsedTime;
 
         obj_it->second->update();
-
-        g_physicSys.updateSystem(elapsedTime);
+        if (isPlay)
+        {
+            g_physicSys.updateSystem(elapsedTime);
+        }
     }
     //if (g_CurrentTime >= g_LastCall5s + SEC_UPDATE)
     //{

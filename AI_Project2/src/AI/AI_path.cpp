@@ -53,7 +53,8 @@ void AI_path::createGraph(cVAOManager* pVAOManager)
 		{
 			C24BitBMPpixel pixel = m_theMap->getPixelAtRowColumn(row, col);
 			std::string instantname = "f_r" + std::to_string(row) + "c"+std::to_string(col);
-			glm::vec3 pos = glm::vec3((col - int(m_theMap->numColumns/2)) * 5, 0, (row - int(m_theMap->numRows/2)) * 5);
+			//glm::vec3 pos = glm::vec3((col - int(m_theMap->numColumns/2)) * 5, 0, (row - int(m_theMap->numRows/2)) * 5);
+			glm::vec3 pos = glm::vec3((float(col) - (float(m_theMap->numColumns) / 2)) * 5, 0, (float(row) - (float(m_theMap->numRows) / 2)) * 5);
 			if (pixel.redPixel == 255 && pixel.greenPixel == 255 && pixel.bluePixel == 255)
 			{
 				pVAOManager->createNewMeshOBJ(instantname, "floorA", pos, glm::vec3(0.f), glm::vec3(0.01));
@@ -479,6 +480,11 @@ void AI_path::findPath()
 	AStarSearch(&m_Graph, start, goal);
 }
 
+glm::vec3 AI_path::getStartPos()
+{
+	return m_StartNode->point;
+}
+
 std::vector<PathNode*>::iterator AI_path::lowestFValue(std::vector<PathNode*>& openList)
 {
 	std::vector<PathNode*>::iterator curNodeIt;
@@ -516,7 +522,9 @@ float AI_path::heuristic(PathNode* nodeA, PathNode* nodeB)
 void AI_path::reconstructPath(PathNode* goal)
 {
 	m_path.empty();
+	path_pos.empty();
 	m_path.push_back(goal);
+	path_pos.push_back(goal->point);
 
 	PathNode* curNode = goal;
 
@@ -524,9 +532,10 @@ void AI_path::reconstructPath(PathNode* goal)
 	{
 		curNode = curNode->parent;
 		m_path.push_back(curNode);
+		path_pos.push_back(curNode->point);
 	}
 	std::reverse(m_path.begin(), m_path.end());
-
+	std::reverse(path_pos.begin(), path_pos.end());
 }
 
 void Graph::SetNeighbours(int a, int b)

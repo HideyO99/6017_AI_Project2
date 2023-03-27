@@ -25,6 +25,7 @@ public:
 	bool gameUpdate();
 
 	bool objPosUpdate();
+	bool pathUpdate(std::vector<glm::vec3> path_pos);
 
 	bool fire(glm::vec3 target);
 	bool RayCastClosest(Ray ray, cObject** hitObject);

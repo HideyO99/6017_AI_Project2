@@ -1,5 +1,7 @@
 #include "cPhysicSystem.h"
 #include "math.h"
+#include "../AI/AI_path.h"
+extern AI_path* g_AI_path;
 
 cPhysicSystem::cPhysicSystem()
 {
@@ -184,8 +186,8 @@ void cPhysicSystem::createObject(cMeshObj* meshObj, cModelDrawInfo* DrawInfo, cO
 
 void cPhysicSystem::updateSystem(float dt)
 {
-    objPosUpdate();
-
+    //objPosUpdate();
+    pathUpdate(g_AI_path->path_pos);
     //std::map<std::string, cObject*>::iterator playerObj = mapOBJ.find("Player");
     // physic collision check
     //for (std::map<std::string, cObject*>::iterator obj_it = mapOBJ.begin(); obj_it != mapOBJ.end(); obj_it++)
@@ -270,6 +272,18 @@ bool cPhysicSystem::objPosUpdate()
             obj_it->second->update();
         }
     }
+
+    return true;
+}
+
+bool cPhysicSystem::pathUpdate(std::vector<glm::vec3> path_pos)
+{
+    float step = 0.1f;
+    std::map<std::string, cObject*>::iterator playerObj = mapOBJ.find("enemy1");
+    playerObj->second->AI_PathFollowing_update(path_pos);
+    playerObj->second->position += playerObj->second->direction * step;
+    playerObj->second->yRotation = asin(playerObj->second->direction.x);
+    playerObj->second->update();
 
     return true;
 }
