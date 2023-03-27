@@ -57,20 +57,27 @@ void AI_path::createGraph(cVAOManager* pVAOManager)
 			if (pixel.redPixel == 255 && pixel.greenPixel == 255 && pixel.bluePixel == 255)
 			{
 				pVAOManager->createNewMeshOBJ(instantname, "floorA", pos, glm::vec3(0.f), glm::vec3(0.01));
+				pVAOManager->setTexture(instantname, "Dungeons_2_Texture_01_A.bmp",0);
 				createPathNode(pos, instantname);
 			}
 			if (pixel.redPixel == 0 && pixel.greenPixel == 0 && pixel.bluePixel == 0)
 			{
 				pVAOManager->createNewMeshOBJ(instantname, "floorA", pos, glm::vec3(0.f), glm::vec3(0.01, 1, 0.01));
+				pVAOManager->setInstanceObjRGB(instantname, glm::vec4(0.f,0.f,0.f,1.f));
+				pVAOManager->setUseRGBColorFlag(instantname, true);
 			}
 			if (pixel.redPixel == 255 && pixel.greenPixel == 0 && pixel.bluePixel == 0)
 			{
 				pVAOManager->createNewMeshOBJ(instantname, "floorA", pos, glm::vec3(0.f), glm::vec3(0.01));
+				pVAOManager->setInstanceObjRGB(instantname, glm::vec4(255.f,0.f,0.f,1.f));
+				pVAOManager->setUseRGBColorFlag(instantname, true);
 				m_EndNode = createPathNode(pos, instantname);
 			}
 			if (pixel.redPixel == 0 && pixel.greenPixel == 255 && pixel.bluePixel == 0)
 			{
 				pVAOManager->createNewMeshOBJ(instantname, "floorA", pos, glm::vec3(0.f), glm::vec3(0.01));
+				pVAOManager->setInstanceObjRGB(instantname, glm::vec4(0.f,255.f,0.f,1.f));
+				pVAOManager->setUseRGBColorFlag(instantname, true);
 				m_StartNode = createPathNode(pos, instantname);
 			}
 		}

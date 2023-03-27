@@ -576,9 +576,9 @@ void cVAOManager::createNewMeshOBJ(std::string InstantName, std::string ModelNam
 	pModedelInsance->scale = scale;
 	pModedelInsance->rotation = rotate;
 
-	pModedelInsance->bUse_RGBA_colour = false;
-	pModedelInsance->textures[0] = "Dungeons_2_Texture_01_A.bmp";
-	pModedelInsance->textureRatios[0] = 1.0f;
+	//pModedelInsance->bUse_RGBA_colour = false;
+	//pModedelInsance->textures[0] = "Dungeons_2_Texture_01_A.bmp";
+	//pModedelInsance->textureRatios[0] = 1.0f;
 
 	mapInstanceNametoMeshObj.emplace(InstantName, pModedelInsance);
 	pVecInstanceMeshObj.push_back(pModedelInsance);
