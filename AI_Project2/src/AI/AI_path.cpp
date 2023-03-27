@@ -51,7 +51,7 @@ void AI_path::createGraph(cVAOManager* pVAOManager)
 	{
 		for (int col = 0; col < m_theMap->numColumns; col++)
 		{
-			C24BitBMPpixel pixel = m_theMap->getPixelAtRowColumn(row, col);
+			C24BitBMPpixel pixel = m_theMap->getPixelAtRowColumn((m_theMap->numRows-1-row), col);
 			std::string instantname = "f_r" + std::to_string(row) + "c"+std::to_string(col);
 			//glm::vec3 pos = glm::vec3((col - int(m_theMap->numColumns/2)) * 5, 0, (row - int(m_theMap->numRows/2)) * 5);
 			glm::vec3 pos = glm::vec3((float(col) - (float(m_theMap->numColumns) / 2)) * 5, 0, (float(row) - (float(m_theMap->numRows) / 2)) * 5);
