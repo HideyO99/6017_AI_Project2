@@ -8,7 +8,7 @@ void PrintSet(const std::string& name, const std::vector<PathNode*>& set)
 
 	for (int i = 0; i < set.size(); i++)
 	{
-		printf("%c ", set[i]->name);
+		printf("%s ", set[i]->name.c_str());
 	}
 
 	printf("}\n");
@@ -415,7 +415,7 @@ bool AI_path::AStarSearch(Graph* graph, PathNode* start, PathNode* end)
 	std::vector<PathNode*> closed;
 
 	open.push_back(start);
-	printf("Added %c to the open set!\n", start->name);
+	printf("Added %s to the open set!\n", start->name.c_str());
 
 	start->g = 0;
 	start->f = heuristic(start, end);
@@ -434,14 +434,14 @@ bool AI_path::AStarSearch(Graph* graph, PathNode* start, PathNode* end)
 			return true;//todo;
 		}
 		open.erase(itX);
-		printf("Removed %c from the open set!\n", curNode->name);
+		printf("Removed %s from the open set!\n", curNode->name.c_str());
 		closed.push_back(curNode);
-		printf("Added %c to the closed set!\n", curNode->name);
+		printf("Added %s to the closed set!\n", curNode->name.c_str());
 
 		for (int i = 0; i < curNode->neighbours.size(); i++)
 		{
 			PathNode* n = curNode->neighbours[i];
-			printf("Found neighbour %c!\n", n->name);
+			printf("Found neighbour %s!\n", n->name.c_str());
 			if (std::find(closed.begin(), closed.end(), n) != closed.end())
 			{
 				continue;
@@ -450,7 +450,7 @@ bool AI_path::AStarSearch(Graph* graph, PathNode* start, PathNode* end)
 			if (std::find(open.begin(), open.end(), n) == open.end())
 			{
 				open.push_back(n);
-				printf("Added %c to the open set!\n", n->name);
+				printf("Added %s to the open set!\n", n->name.c_str());
 			}
 			else if (tentativeG >= n->g)
 			{
